@@ -103,7 +103,10 @@ def alg_confusion():
             jwt.key = RS256_KEY_PUBLIC
 
         if not jwt.verify():
-            return ("<p>Failed verification. Use alg None to solve this.</p>", 400)
+            if jwt.header['alg'] == 'RS256':
+                return ("<p>Failed verification. Use won't succeed without the private key using RS256. You need to perform an algorithm confusion attack.</p>", 400)
+            else:
+                return ("<p>Failed verification. Your key is incorrect. Ensure you have made no whitespace changes.</p>", 400)
 
         if jwt.payload['username'] == 'admin':
             return f"<p>Success! Your username is admin.</p>"

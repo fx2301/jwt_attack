@@ -129,6 +129,8 @@ for attack_name, attack_token in attacks:
         attack_jwt = JsonWebToken(attack_token)
         if options.target_payload:
             attack_jwt.payload = target_payload
+        if attack_jwt.header['alg'] in ['HS256', 'RS256']:
+            attack_jwt.key = key
 
         successful_jwt = attack_jwt
         success = True
